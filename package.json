@@ -1,0 +1,69 @@
+{
+  "name": "@mediafish/flv",
+  "version": "0.0.1",
+  "description": "A library to read/write FLV file format",
+  "main": "index.js",
+  "scripts": {
+    "lint": "xo",
+    "audit": "npm audit --audit-level high",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "test": "npm run lint && ava --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/media-fish/flv.git"
+  },
+  "keywords": [
+    "Adobe",
+    "flash",
+    "video",
+    "FLV"
+  ],
+  "author": "Kuu Miyazaki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/media-fish/flv/issues"
+  },
+  "homepage": "https://github.com/media-fish/flv#readme",
+  "dependencies": {
+    "@mediafish/buffer-operator": "0.0.4"
+  },
+  "devDependencies": {
+    "ava": "^3.8.1",
+    "coveralls": "^3.1.0",
+    "nyc": "^15.0.1",
+    "xo": "^0.30.0"
+  },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "rules": {
+      "array-element-newline": 0,
+      "ava/no-ignored-test-files": 0,
+      "camelcase": 0,
+      "capitalized-comments": 0,
+      "dot-notation": 0,
+      "import/no-dynamic-require": 0,
+      "indent": 0,
+      "new-cap": 0,
+      "no-cond-assign": 0,
+      "no-constant-condition": 0,
+      "no-mixed-operators": 0,
+      "no-multi-assign": 0,
+      "no-unused-vars": 0,
+      "one-var": 0,
+      "one-var-declaration-per-line": 0,
+      "padding-line-between-statements": 0,
+      "quotes": 0,
+      "unicorn/catch-error-name": 0,
+      "unicorn/escape-case": 0,
+      "unicorn/filename-case": 0,
+      "unicorn/no-for-loop": 0,
+      "unicorn/no-zero-fractions": 0,
+      "unicorn/prevent-abbreviations": 0
+    }
+  },
+  "directories": {
+    "test": "test"
+  }
+}
