@@ -8,7 +8,7 @@
 
 # flv
 
-A library to read/write Flash Video file format
+A library to read/write Flash Video file format (only supports AAC/AVC)
 
 ## Install
 [![NPM](https://nodei.co/npm/@mediafish/flv.png?mini=true)](https://nodei.co/npm/@mediafish/flv/)
@@ -17,37 +17,37 @@ A library to read/write Flash Video file format
 
 ### Example of reading FLV file
 ```js
-const {readFile} = require('@mediafish/flv');
+const {readFile, print} = require('@mediafish/flv');
 
 const buf = fs.readFileSync('test.flv');
 const [offset, flv] = readFile(buf, offset);
 print(flv);
 /*
 FLVFile {
-  header: FLVHeader {
+  FLVHeader: {
     version: 1,
     hasAudio: true,
     hasVideo: true
   },
   body: [
-    FLVTag {
+    FLVTag: {
       timestamp: 0,
-      data: Video {
+      AVC: {
         frameType: 'keyframe',
         codec: 'AVC',
         packetType: 'NALU',
-        data: <Buffer 00 00 00 00 00 ... >
+        data: <Buffer length=1024 >
       }
     },
-    FLVTag {
+    FLVTag: {
       timestamp: 0,
-      data: Audio {
+      AAC: {
         format: 'AAC',
         sampleRate: '44kHz',
         size: '16Bit',
         isStereo: true,
         packetType: 'raw',
-        data: <Buffer 00 00 00 00 00 ... >
+        data: <Buffer length=1024 >
       }
     },
     ...
@@ -59,29 +59,29 @@ FLVFile {
 ### Example of reading Video and Audio
 
 ```js
-const {readVideo, readAudio} = require('@mediafish/flv');
+const {readVideo, readAudio, print} = require('@mediafish/flv');
 
 const [offset, video] = readVideo(buf1, offset);
 print(video);
 /*
-Video {
+AVC: {
   frameType: 'keyframe',
   codec: 'AVC',
   packetType: 'NALU',
-  data: <Buffer 00 00 00 00 00 ... >
+  data: <Buffer length=1024 >
 }
 */
 
 const [offset, audio] = readAudio(buf2, offset);
 print(audio);
 /*
-data: Audio {
+AAC: {
   format: 'AAC',
   sampleRate: '44kHz',
   size: '16Bit',
   isStereo: true,
   packetType: 'raw',
-  data: <Buffer 00 00 00 00 00 ... >
+  data: <Buffer length=1024 >
 }
 */
 ```
@@ -173,10 +173,11 @@ Read FLV file from the buffer
 
 #### return value
 An array containing the following pair of values
+
 | Index | Type   | Description  |
 | ----- | ------ | ------------ |
 | [0]   | number | An integer to indicate the position from which the next data should be read |
-| [1]   | FLVFile | The read data |
+| [1]   | FLVFile | The read data (See `Data format`) |
 
 ### `readVideo(buffer, offset, length)`
 Read video data from the buffer
@@ -190,10 +191,11 @@ Read video data from the buffer
 
 #### return value
 An array containing the following pair of values
+
 | Index | Type   | Description  |
 | ----- | ------ | ------------ |
 | [0]   | number | An integer to indicate the position from which the next data should be read |
-| [1]   | Video | The read data |
+| [1]   | AVC    | The read data (See `Data format`) |
 
 ### `readAudio(buffer, offset)`
 Read audio data from the buffer
@@ -207,10 +209,11 @@ Read audio data from the buffer
 
 #### return value
 An array containing the following pair of values
+
 | Index | Type   | Description  |
 | ----- | ------ | ------------ |
 | [0]   | number | An integer to indicate the position from which the next data should be read |
-| [1]   | Audio | The read data |
+| [1]   | AAC    | The read data (See `Data format`) |
 
 ### `writeData(data, buffer, offset)`
 Write data to the buffer
@@ -218,9 +221,59 @@ Write data to the buffer
 #### params
 | Name     | Type    | Required | Default | Description   |
 | -------- | ------- | -------- | ------- | ------------- |
-| `data`  | Video/Audio/FLVHeader/FLVTag/FLVFile | Yes      | N/A     | The data to be written to the buffer |
+| `data`  | AVC/AAC/FLVHeader/FLVTag/FLVFile | Yes      | N/A     | The data to be written to the buffer |
 | `buffer` | `Buffer` | No | null | The buffer to which the data is written. If null, only the necessary buffer size is calculated |
 | `offset` | number  | Yes      | N/A     | An integer to specify the position within the buffer |
 
 #### return value
 An integer to indicate the position from which the next data should be read
+
+## Data format
+This section describes the structure of the data that can be read / written using `readFile`/`readAudio`/`readVideo`
+
+### `FLVFile`
+| Property | Type        | Description   |
+| -------- | ----------- | ------------- |
+| `header` | `FLVHeader` | An instance of `FLVHeader` |
+| `body`   | [`FLVTag`]  | An array of `FLVTag`       |
+
+### `FLVHeader`
+| Property   | Type    | Description   |
+| ---------- | ------- | ------------- |
+| `version`  | number  | FLV version |
+| `hasAudio` | boolean | Audio tags are present |
+| `hasVideo` | boolean | Video tags are present |
+
+### `FLVTag`
+| Property    | Type                  | Description   |
+| ----------- | --------------------- | ------------- |
+| `type`      | enum `FLVTag.TagType` | Type of this tag |
+| `timestamp` | number                | Time in milliseconds at which the data in this tag applies |
+| `data`      | `Audio` or `Video`    | An instance of `Audio` / `Video` |
+
+### `Audio`
+| Property     | Type                      | Description   |
+| ------------ | ------------------------- | ------------- |
+| `format`     | enum `Audio.SoundFormat`  | Type of this tag. Only `AAC` is supported. |
+| `sampleRate` | enum `Audio.SampleRate`   | sample rate |
+| `size`       | enum `Audio.SampleLength` | bits per sample |
+| `isStereo`   | boolean                   | mono / stereo |
+| `data`       | `Buffer` or `Uint8Array`  | Format specific data. |
+
+### `AAC` extends `Audio`
+| Property     | Type                  | Description     |
+| ------------ | --------------------- | --------------- |
+| `packetType` | enum `AAC.PacketType` | AAC packet type |
+
+### `Video`
+| Property    | Type                     | Description   |
+| ----------- | ------------------------ | ------------- |
+| `frameType` | enum `Video.FrameType`   | Type of the frame included in this tag |
+| `codec`     | enum `Video.Codec`       | Type of codec used to compress the frame. Only `AVC` is supported. |
+| `data`      | `Buffer` or `Uint8Array` | Codec specific data. |
+
+### `AVC` extends `Video`
+| Property                | Type                  | Description     |
+| ----------------------- | --------------------- | --------------- |
+| `packetType`            | enum `AVC.PacketType` | AVC packet type |
+| `compositionTimeOffset` | number | Composition time offset |
