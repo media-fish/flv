@@ -136,9 +136,8 @@ function writeFile({header, body}, buffer, offset) {
   return offset;
 }
 
-function writeHeader(data, buffer, offset) {
+function writeHeader({version, hasAudio, hasVideo}, buffer, offset) {
   // console.log(`writeHeader(buffer.length=${buffer ? buffer.length : 0}, offset=${offset})`);
-  const {version, hasAudio, hasVideo} = data;
   offset = writer.writeString('FLV', buffer, offset);
   offset = writer.writeNumber(version, buffer, offset, 1);
   let bitOffset = offset * 8;

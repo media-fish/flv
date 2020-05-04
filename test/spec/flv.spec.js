@@ -4,11 +4,11 @@ const test = require('ava');
 const flv = require('../..');
 
 test('readFile', t => {
-  const {readFile} = flv;
+  const {readFile, print} = flv;
 
   const buf = fs.readFileSync(path.join(__dirname, '../fixture/sample.flv'));
   const [offset, file] = readFile(buf, 0);
-  // console.log(JSON.stringify(file, null, 4));
+  print(file);
   t.is(offset, buf.length);
   t.is(file.header.version, 1);
   t.is(file.body.length, 4542);
