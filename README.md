@@ -228,6 +228,25 @@ Write data to the buffer
 #### return value
 An integer to indicate the position from which the next data should be read
 
+### `setOptions(obj)`
+Updates the option values
+
+#### params
+| Name    | Type   | Required | Default | Description   |
+| ------- | ------ | -------- | ------- | ------------- |
+| obj     | Object | Yes      | {}     | An object holding option values which will be used to overwrite the internal option values.  |
+
+##### supported options
+| Name       | Type    | Default | Description   |
+| ---------- | ------- | ------- | ------------- |
+| `strictMode` | boolean | false   | If true, the function throws an error when the method invocations failed. If false, the function just logs the error and continues to run.|
+
+### `getOptions()`
+Retrieves the current option values
+
+#### return value
+A cloned object containing the current option values
+
 ## Data format
 This section describes the structure of the data that can be read / written using `readFile`/`readAudio`/`readVideo`
 
