@@ -1,12 +1,24 @@
 const {reader, writer} = require('@mediafish/buffer-operator');
 const {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} = require('./types');
 
+let options = {};
+
 function throwError(err) {
-  if (process.env.NODE_ENV !== 'production') {
+  if (!options.strictMode) {
     console.error(err.stack);
     return err;
   }
   throw err;
+}
+
+function setOptions(newOptions = {}) {
+  options = Object.assign(options, newOptions);
+  const {strictMode} = options;
+  reader.setOptions({strictMode});
+}
+
+function getOptions() {
+  return Object.assign({}, options);
 }
 
 function readFile(buffer, offset) {
@@ -211,5 +223,7 @@ module.exports = {
   readFile,
   readVideo,
   readAudio,
-  writeData
+  writeData,
+  setOptions,
+  getOptions
 };
