@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "A library to read/write FLV file format",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "xo",
     "audit": "npm audit --audit-level high",
@@ -26,15 +27,15 @@
   },
   "homepage": "https://github.com/media-fish/flv#readme",
   "dependencies": {
-    "@mediafish/buffer-operator": "0.1.0"
+    "@mediafish/buffer-operator": "0.1.2"
   },
   "devDependencies": {
-    "ava": "^3.11.0",
-    "coveralls": "^3.1.0",
+    "ava": "^5.1.0",
+    "coveralls": "^3.1.1",
     "nyc": "^15.1.0",
-    "rewire": "^5.0.0",
-    "sinon": "^9.0.2",
-    "xo": "^0.32.1"
+    "rewire": "^6.0.0",
+    "sinon": "^15.0.0",
+    "xo": "^0.53.1"
   },
   "xo": {
     "esnext": true,
@@ -48,6 +49,7 @@
       "import/no-dynamic-require": 0,
       "indent": 0,
       "new-cap": 0,
+      "no-bitwise": 0,
       "no-cond-assign": 0,
       "no-constant-condition": 0,
       "no-mixed-operators": 0,
@@ -62,7 +64,8 @@
       "unicorn/filename-case": 0,
       "unicorn/no-for-loop": 0,
       "unicorn/no-zero-fractions": 0,
-      "unicorn/prevent-abbreviations": 0
+      "unicorn/prevent-abbreviations": 0,
+      "unicorn/switch-case-braces": 0
     }
   },
   "directories": {

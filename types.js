@@ -23,7 +23,7 @@ class FLVTag {
 
 FLVTag.TagType = {
   audio: 8,
-  video: 9
+  video: 9,
 };
 
 class FLVData {
@@ -56,19 +56,19 @@ Audio.SoundFormat = {
   AAC: 10,
   Speex: 11,
   MP38kHz: 14,
-  DeviceSpecific: 15
+  DeviceSpecific: 15,
 };
 
 Audio.SampleRate = {
   _5kHz: 0,
   _11kHz: 1,
   _22kHz: 2,
-  _44kHz: 3
+  _44kHz: 3,
 };
 
 Audio.SampleLength = {
   _8Bit: 0,
-  _16Bit: 1
+  _16Bit: 1,
 };
 
 class AAC extends Audio {
@@ -80,7 +80,7 @@ class AAC extends Audio {
 
 AAC.PacketType = {
   SequenceHeader: 0,
-  Raw: 1
+  Raw: 1,
 };
 
 class Video extends FLVData {
@@ -97,7 +97,7 @@ Video.FrameType = {
   interframe: 2,
   disposable: 3,
   generated: 4,
-  command: 5
+  command: 5,
 };
 
 Video.Codec = {
@@ -107,7 +107,7 @@ Video.Codec = {
   On2VP6: 4,
   On2VP6WithAlpha: 5,
   ScreenVideo2: 6,
-  AVC: 7
+  AVC: 7,
 };
 
 class AVC extends Video {
@@ -121,15 +121,15 @@ class AVC extends Video {
 AVC.PacketType = {
   SequenceHeader: 0,
   NALU: 1,
-  EndOfSequence: 2
+  EndOfSequence: 2,
 };
 
-module.exports = {
+export {
   FLVFile,
   FLVHeader,
   FLVTag,
   Audio,
   Video,
   AAC,
-  AVC
+  AVC,
 };
