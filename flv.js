@@ -1,5 +1,5 @@
-const {reader, writer} = require('@mediafish/buffer-operator');
-const {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} = require('./types');
+import {reader, writer} from '@mediafish/buffer-operator';
+import {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} from './types.js';
 
 let options = {};
 
@@ -175,7 +175,7 @@ function writeTag({type, timestamp, data}, buffer, offset) {
   }
   offset = writer.writeNumber(type, buffer, offset, 1);
   offset = writer.writeNumber(length, buffer, offset, 3);
-  offset = writer.writeNumber(timestamp & 0xFFFFFF, buffer, offset, 3);
+  offset = writer.writeNumber(timestamp & 0xFF_FF_FF, buffer, offset, 3);
   offset = writer.writeNumber(timestamp >>> 24 & 0xFF, buffer, offset, 1);
   offset = writer.writeNumber(0, buffer, offset, 3);
   if (type === FLVTag.TagType.audio) {
@@ -219,11 +219,13 @@ function writeVideo({frameType, codec, packetType, compositionTimeOffset, data},
   return offset;
 }
 
-module.exports = {
+const flv = {
   readFile,
   readVideo,
   readAudio,
   writeData,
   setOptions,
-  getOptions
+  getOptions,
 };
+
+export default flv;

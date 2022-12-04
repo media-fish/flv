@@ -1,4 +1,4 @@
-const {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} = require('./types');
+import {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} from './types.js';
 
 function print(data) {
   let obj = null;
@@ -49,7 +49,7 @@ function printAudio({format, sampleRate, size, isStereo, packetType, data}) {
     sampleRate: printSampleRate(sampleRate),
     size: printSampleLength(size),
     isStereo,
-    data: printBuffer(data)
+    data: printBuffer(data),
   };
   if (format === Audio.SoundFormat.AAC) {
     obj.packetType = printAACPacketType(packetType);
@@ -139,7 +139,7 @@ function printVideo({frameType, codec, packetType, compositionTimeOffset, data})
   const obj = {
     frameType: printFrameType(frameType),
     sampleRate: printVideoCodec(codec),
-    data: printBuffer(data)
+    data: printBuffer(data),
   };
   if (codec === Video.Codec.AVC) {
     obj.packetType = printAVCPacketType(packetType);
@@ -200,4 +200,4 @@ function printAVCPacketType(packetType) {
   }
 }
 
-module.exports = print;
+export default print;
