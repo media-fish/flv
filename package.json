@@ -1,6 +1,6 @@
 {
   "name": "@mediafish/flv",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A library to read/write FLV file format",
   "main": "index.js",
   "type": "module",

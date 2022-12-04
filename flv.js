@@ -219,7 +219,7 @@ function writeVideo({frameType, codec, packetType, compositionTimeOffset, data},
   return offset;
 }
 
-const flv = {
+export {
   readFile,
   readVideo,
   readAudio,
@@ -227,5 +227,3 @@ const flv = {
   setOptions,
   getOptions,
 };
-
-export default flv;

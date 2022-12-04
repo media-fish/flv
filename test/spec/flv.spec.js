@@ -5,7 +5,7 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 import rewire from 'rewire';
 import sinon from 'sinon';
-import flv from '../../index.js';
+import * as flv from '../../index.js';
 
 test('readFile', t => {
   const {readFile} = flv;

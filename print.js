@@ -1,6 +1,6 @@
 import {FLVFile, FLVHeader, FLVTag, Audio, AAC, Video, AVC} from './types.js';
 
-function print(data) {
+export function print(data) {
   let obj = null;
   if (data instanceof FLVFile) {
     obj = printFile(data);
@@ -199,5 +199,3 @@ function printAVCPacketType(packetType) {
       return 'Unknown packet type';
   }
 }
-
-export default print;
